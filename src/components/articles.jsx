@@ -1,4 +1,6 @@
 
+import { useState } from 'react';
+
 const articles = [
   {
     title: 'A Beginner’s Guide to Web Development',
@@ -70,16 +72,55 @@ function ArticleCards({ items }) {
 }
 
 function Articles() {
+  const [showAllArticles, setShowAllArticles] = useState(false);
+  const [showAllTutorials, setShowAllTutorials] = useState(false);
+
   return (
     <>
+      {/* Featured Articles Section */}
       <section className="featured-section">
         <h2>Featured Articles</h2>
+
         <ArticleCards items={articles} />
+
+        {showAllArticles && (
+          <p className="see-all-message">
+            All available articles are displayed above.
+          </p>
+        )}
+
+        <div className="see-all-container">
+          <button
+            type="button"
+            className="see-all-button"
+            onClick={() => setShowAllArticles(!showAllArticles)}
+          >
+            {showAllArticles ? 'Show less' : 'See all articles'}
+          </button>
+        </div>
       </section>
 
+      {/* Featured Tutorials Section */}
       <section className="featured-section tutorials-section">
         <h2>Featured Tutorials</h2>
+
         <ArticleCards items={tutorials} />
+
+        {showAllTutorials && (
+          <p className="see-all-message">
+            All available tutorials are displayed above.
+          </p>
+        )}
+
+        <div className="see-all-container">
+          <button
+            type="button"
+            className="see-all-button"
+            onClick={() => setShowAllTutorials(!showAllTutorials)}
+          >
+            {showAllTutorials ? 'Show less' : 'See all tutorials'}
+          </button>
+        </div>
       </section>
     </>
   );
