@@ -5,7 +5,7 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
     if (!email.trim()) {
@@ -13,8 +13,28 @@ function Signup() {
       return;
     }
 
-    setMessage('Thank you for subscribing!');
-    setEmail('');
+    try {
+      const response = await fetch('http://localhost:3000/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Subscription failed.');
+      }
+
+      setMessage(data.message);
+      setEmail('');
+    } catch (error) {
+      setMessage(
+        error.message || 'Could not connect to the server.'
+      );
+    }
   }
 
   return (
